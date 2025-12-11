@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Management System - Revista Científica Profesional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0d1b4a;
+            --primary-blue: #1e3a8a;
+            --primary-light: #3b82f6;
+            --accent-orange: #f97316;
+            --accent-cyan: #06b6d4;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --border-color: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-white);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* PORTADA PREMIUM */
+        .portada {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 50%, var(--primary-light) 100%);
+            color: white;
+            padding: 120px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portada::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(249, 115, 34, 0.08) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .portada-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .revista-nombre {
+            font-size: 2em;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .revista-subtitulo {
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            opacity: 0.85;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .portada-titulo {
+            font-size: 4em;
+            font-weight: 700;
+            margin: 30px 0;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .portada-subtitulo-articulo {
+            font-size: 1.5em;
+            margin: 25px 0 50px 0;
+            opacity: 0.92;
+            font-weight: 300;
+            color: #e0f2fe;
+        }
+
+        .portada-info {
+            border-top: 2px solid rgba(255,255,255,0.3);
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding: 20px 0;
+            margin: 40px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .portada-info div {
+            text-align: center;
+        }
+
+        .portada-info strong {
+            display: block;
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .portada-info span {
+            display: block;
+            font-size: 1.3em;
+            font-weight: 500;
+        }
+
+        /* CONTENIDO */
+        .contenido {
+            padding: 80px 60px;
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            font-size: 2.8em;
+            margin: 60px 0 25px 0;
+            padding-bottom: 20px;
+            border-bottom: 4px solid var(--accent-orange);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            color: var(--primary-blue);
+            font-size: 2.2em;
+            margin: 50px 0 25px 0;
+            padding-left: 20px;
+            border-left: 6px solid var(--accent-orange);
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            font-size: 1.8em;
+            margin: 35px 0 18px 0;
+            font-weight: 600;
+        }
+
+        h4 {
+            color: var(--primary-blue);
+            font-size: 1.4em;
+            margin: 25px 0 12px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 1.05em;
+            line-height: 1.9;
+            color: var(--text-dark);
+        }
+
+        /* RESUMEN EJECUTIVO */
+        .resumen-ejecutivo {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0e7fe 100%);
+            border-left: 6px solid var(--primary-blue);
+            border-right: 6px solid var(--accent-orange);
+            padding: 35px;
+            margin: 50px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+        }
+
+        .resumen-ejecutivo h3 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.5em;
+        }
+
+        .palabras-clave {
+            background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+            border-left: 5px solid var(--success);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 6px;
+            font-style: italic;
+        }
+
+        .palabras-clave strong {
+            color: #166534;
+            display: block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        /* TABLAS */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 0.98em;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background-color: #f9fafb;
+            transition: background-color 0.3s ease;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f3f4f6;
+        }
+
+        /* DIAGRAMA */
+        .diagrama {
+            background: linear-gradient(135deg, #263238 0%, #37474f 100%);
+            color: #aed581;
+            padding: 30px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 35px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            line-height: 1.8;
+            border-left: 5px solid var(--accent-orange);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .diagrama-titulo {
+            color: #ffb74d;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* INFORMACIÓN ESPECIAL */
+        .info-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 5px solid var(--warning);
+            padding: 28px;
+            margin: 30px 0;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(251, 192, 45, 0.2);
+        }
+
+        .info-box strong {
+            color: #b45309;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        .nota-critica {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 5px solid #dc2626;
+            padding: 28px;
+            margin: 30px 0;
+            border-radius: 6px;
+            box-shadow: 0 3px 10px rgba(220, 38, 38, 0.2);
+        }
+
+        .nota-critica strong {
+            color: #7f1d1d;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        /* LISTAS */
+        ul, ol {
+            margin: 25px 0 25px 40px;
+        }
+
+        li {
+            margin-bottom: 15px;
+            line-height: 1.85;
+        }
+
+        ul li::marker {
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        ol li {
+            color: var(--text-dark);
+        }
+
+        /* AUTOR Y METADATA */
+        .autor-info {
+            background: linear-gradient(135deg, #ecf0f1 0%, #e8eef2 100%);
+            padding: 35px;
+            border-radius: 8px;
+            margin: 50px 0;
+            border-left: 5px solid var(--primary-blue);
+        }
+
+        .autor-info h4 {
+            margin-top: 0;
+            color: var(--primary-dark);
+        }
+
+        .autor-info p {
+            margin: 10px 0;
+            font-size: 1.02em;
+        }
+
+        .autor-info strong {
+            color: var(--primary-blue);
+        }
+
+        /* REFERENCIAS */
+        .referencias {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            padding: 40px;
+            border-radius: 8px;
+            margin: 50px 0;
+            border: 2px solid var(--border-color);
+        }
+
+        .referencias h2 {
+            border: none;
+            padding: 0;
+            color: var(--primary-dark);
+            margin-top: 0;
+        }
+
+        .referencias ol {
+            margin: 25px 0 0 35px;
+        }
+
+        .referencias li {
+            margin-bottom: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        /* FOOTER */
+        footer {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 60px 40px;
+            margin-top: 80px;
+            text-align: center;
+            border-top: 5px solid var(--accent-orange);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .footer-content h4 {
+            color: #ffb74d;
+            text-transform: uppercase;
+            font-size: 1em;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        .footer-content p {
+            font-size: 0.95em;
+            margin: 8px 0;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.3);
+            padding-top: 25px;
+            font-size: 0.95em;
+            opacity: 0.85;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+            }
+
+            .contenido {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .portada {
+                padding: 60px 25px;
+            }
+
+            .portada-titulo {
+                font-size: 2.5em;
+            }
+
+            .portada-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            td, th {
+                padding: 12px 10px;
+            }
+
+            .portada-subtitulo-articulo {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PORTADA -->
+        <div class="portada">
+            <div class="portada-content">
+                <div class="revista-nombre">Aviónica Aeronáutica</div>
+                <div class="revista-subtitulo">Revista Internacional de Investigación Científica y Tecnología Aeroespacial</div>
+                
+                <div class="portada-titulo">FLIGHT MANAGEMENT SYSTEM</div>
+                <div class="portada-subtitulo-articulo">Arquitectura, Funcionalidad e Innovaciones en Sistemas de Gestión de Vuelo Moderno</div>
+                
+                <div class="portada-info">
+                    <div>
+                        <strong>VOLUMEN</strong>
+                        <span>15 | NÚMERO 3</span>
+                    </div>
+                    <div>
+                        <strong>AÑO</strong>
+                        <span>2025</span>
+                    </div>
+                    <div>
+                        <strong>PÁGINAS</strong>
+                        <span>28-45</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; font-size: 0.95em; opacity: 0.9;">
+                    <p style="margin: 0;">Una exploración comprehensiva de los sistemas de gestión de vuelo en la aviación moderna</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="contenido">
+            
+            <!-- RESUMEN EJECUTIVO -->
+            <div class="resumen-ejecutivo">
+                <h3>Resumen Ejecutivo</h3>
+                <p>El Flight Management System (FMS) representa el corazón tecnológico de la aviación comercial moderna, integrando funciones críticas de navegación, guía automática y optimización de rendimiento. Este artículo examina la arquitectura fundamental del FMS, sus componentes principales, funcionalidades operacionales y las tendencias tecnológicas emergentes que están transformando estos sistemas. Se analizan los cuatro componentes principales: el Computador de Gestión de Vuelo (FMC), el Sistema de Navegación, el Sistema Automático de Control de Vuelo (AFCS) y el Sistema Electrónico de Instrumentos de Vuelo (EFIS). Además, se discuten las innovaciones recientes incluyendo la integración de inteligencia artificial, sistemas basados en software y capacidades de computación en la nube.</p>
+                
+                <div class="palabras-clave">
+                    <strong>Palabras Clave</strong>
+                    Flight Management System • Aviónica • Navegación Aérea • Automatización de Vuelo • Optimización de Combustible • GPS/INS • Inteligencia Artificial en Aviación
+                </div>
+            </div>
+
+            <!-- INTRODUCCIÓN -->
+            <h2>Introducción</h2>
+            <p>El Flight Management System es un sistema integrado multipropósito diseñado para proporcionar datos virtuales y armonía operacional durante todos los segmentos del vuelo, desde el arranque de motores previo al despegue hasta el apagado de motores después del aterrizaje. Los aviones comerciales modernos dependen enteramente del FMS para sus operaciones de navegación, guía automática y monitoreo de desempeño.</p>
+            
+            <p>En la aviación contemporánea, la precisión, seguridad y eficiencia son parámetros no negociables. El FMS automatiza numerosas tareas que históricamente requerían intervención manual constante del piloto, permitiendo a la tripulación concentrarse en aspectos críticos de la operación de la aeronave. El mercado global de sistemas FMS se valoraba en aproximadamente USD 2,429.4 millones en 2025 y se proyecta un crecimiento con una tasa anual compuesta (CAGR) del 3.4% hasta 2033.</p>
+
+            <!-- ESTRUCTURA DEL FMS -->
+            <h1>Arquitectura y Componentes del Flight Management System</h1>
+            
+            <h2>Componentes Principales</h2>
+            <p>El Flight Management System está constituido por cuatro componentes fundamentales que trabajan en sinergia para proporcionar control y navegación integral de la aeronave:</p>
+
+            <!-- TABLA DE COMPONENTES -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Acrónimo</th>
+                        <th>Función Principal</th>
+                        <th>Interfaz del Piloto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Computador de Gestión de Vuelo</strong></td>
+                        <td>FMC</td>
+                        <td>Procesamiento de datos, cálculos de rendimiento, optimización de ruta</td>
+                        <td>MCDU</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sistema de Navegación</strong></td>
+                        <td>GNS</td>
+                        <td>Posicionamiento preciso mediante GPS, IRS, radio navegación</td>
+                        <td>ND/Display</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sistema de Control de Vuelo Automático</strong></td>
+                        <td>AFCS/AFGS</td>
+                        <td>Guía lateral y vertical automática durante todas las fases</td>
+                        <td>Flight Control Panel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sistema Electrónico de Instrumentos</strong></td>
+                        <td>EFIS</td>
+                        <td>Presentación integrada de información de vuelo y navegación</td>
+                        <td>PFD/ND en cockpit</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>1. Flight Management Computer (FMC)</h3>
+            <p>El FMC es el núcleo computacional del sistema FMS. Utiliza una extensa base de datos de navegación para permitir que los pilotos preprogramen rutas y las carguen en el sistema. Su capacidad de procesamiento le permite:</p>
+            <ul>
+                <li><strong>Calcular la ruta óptima:</strong> Considerando factores como airways, waypoints, restricciones de tráfico aéreo y eficiencia de combustible</li>
+                <li><strong>Optimizar el perfil de vuelo:</strong> Determinando altitudes óptimas, velocidades y perfiles de descenso para minimizar consumo de combustible</li>
+                <li><strong>Gestionar el combustible:</strong> Calculando consumo en tiempo real, determinando punto de descenso óptimo y tiempo de llegada requerido (RTA)</li>
+                <li><strong>Mantener la base de datos de navegación:</strong> Asegurando que información de aeropuertos, pistas, airways y waypoints esté constantemente actualizada</li>
+                <li><strong>Integración con sistemas de aviónica:</strong> Comunica con INS, GPS, sensores meteorológicos y sistemas de control automático</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>Datos Técnicos Relevantes</strong>
+                <p>Un FMC moderno procesa información de múltiples fuentes simultáneamente: GPS (precisión de 10-15 metros), IRS (acelerómetros y giroscopios de precisión), y ayudas de radio navegación (VOR/DME con precisión de 200-300 metros). El sistema integra esta información mediante algoritmos de fusión de sensores para determinar la posición más precisa del navegador.</p>
+            </div>
+
+            <h3>2. Sistema de Navegación (GNS)</h3>
+            <p>El sistema de navegación integra múltiples fuentes de posicionamiento:</p>
+            <ul>
+                <li><strong>GPS (Sistema de Posicionamiento Global):</strong> Proporciona posicionamiento global con precisión de 10-15 metros en modo civil</li>
+                <li><strong>IRS (Sistema de Referencia Inercial):</strong> Acelerómetros y giroscopios de precisión que calculan posición mediante integración de aceleraciones</li>
+                <li><strong>Radio Navegación:</strong> VOR/DME para navegación de corto alcance, TACAN para aplicaciones militares</li>
+                <li><strong>GNSS Aumentado (SBAS):</strong> Sistemas de aumentación por satélite para mejorar precisión GPS</li>
+            </ul>
+
+            <p>El GNS calcula continuamente la posición del navegador, velocidad respecto al suelo y vientos en altura mediante una fusión ponderada de estos sensores. Cuando el GPS está disponible, tiene mayor peso; en zonas sin cobertura GPS, el sistema confía en INS complementado con radio navegación.</p>
+
+            <h3>3. Sistema Automático de Control de Vuelo (AFCS/AFGS)</h3>
+            <p>El AFCS proporciona guía automática en dos ejes:</p>
+            <ul>
+                <li><strong>NAV Mode (Navegación Lateral):</strong> Mantiene la aeronave en la trayectoria de vuelo planeada, corrigiendo desviaciones mediante comandos al piloto automático</li>
+                <li><strong>PROF Mode (Perfil Vertical):</strong> Controla la altitud y velocidad vertical según el perfil de vuelo preestablecido</li>
+                <li><strong>FMS SPD (Control de Velocidad Óptima):</strong> Ajusta la velocidad según el perfil de vuelo para optimizar combustible y cumplir restricciones de tiempo</li>
+            </ul>
+
+            <div class="diagrama">
+                <div class="diagrama-titulo">Modo de Operación del AFCS</div>
+                Preflight → Takeoff → Climb → Cruise → Descent → Approach → Go-Around/Landing
+                <br><br>
+                El FMS transfiere el control automático entre estos modos según la progresión del vuelo, comunicando comandos de dirección y límites de velocidad al piloto automático.
+            </div>
+
+            <h3>4. Sistema Electrónico de Instrumentos de Vuelo (EFIS)</h3>
+            <p>El EFIS reemplaza los instrumentos analógicos convencionales con pantallas digitales integradas:</p>
+            <ul>
+                <li><strong>Primary Flight Display (PFD):</strong> Muestra horizonte artificial, velocidad aerodinámica, altímetro, indicador de velocidad vertical y otros datos críticos</li>
+                <li><strong>Navigation Display (ND):</strong> Presenta mapas de navegación, waypoints, airways, posición de la aeronave respecto a la ruta planeada</li>
+                <li><strong>Flight Mode Annunciator (FMA):</strong> Indica el modo de vuelo actual y estado del FMS</li>
+                <li><strong>Integrated Display Architecture:</strong> Proporciona información situacional comprehensiva en una única pantalla</li>
+            </ul>
+
+            <!-- FUNCIONALIDADES OPERACIONALES -->
+            <h1>Funcionalidades Operacionales del FMS</h1>
+
+            <h2>Gestión Integral de Combustible</h2>
+            <p>Uno de los aspectos más críticos del FMS es la gestión optimizada del combustible. El sistema continuamente:</p>
+            <ul>
+                <li>Monitorea el flujo de combustible de cada motor mediante integración en tiempo real (FF+FQ)</li>
+                <li>Calcula el consumo restante y proyecta el combustible disponible al destino</li>
+                <li>Determina el Punto de Descenso Óptimo (TOD) para minimizar consumo de combustible</li>
+                <li>Ajusta velocidades e altitudes para cumplir restricciones de tiempo de llegada (RTA) con mínimo consumo</li>
+                <li>Alerta a la tripulación sobre desviaciones en consumo versus planes</li>
+            </ul>
+
+            <p>Esta optimización resulta en ahorros de combustible del 2-5% comparado con navegación manual, lo que para una aeronave grande operando globalmente se traduce en miles de dólares por año.</p>
+
+            <h2>Planificación y Monitoreo de Ruta</h2>
+            <p>El FMS permite a los pilotos:</p>
+            <ul>
+                <li><strong>Preprogramar rutas complejas:</strong> Estableciendo waypoints, restricciones de altitud y velocidad antes del vuelo</li>
+                <li><strong>Modificar rutas en vuelo:</strong> Respondiendo a instrucciones de control de tráfico aéreo (ATC) o condiciones meteorológicas</li>
+                <li><strong>Navegar directo:</strong> Ordenando dirección directa a cualquier waypoint de la base de datos de navegación</li>
+                <li><strong>Ejecutar procedimientos de aproximación:</strong> Incluyendo procedimientos de aproximación por instrumentos (ILS) y vuelo de aproximación frustrada</li>
+                <li><strong>Monitorear desviaciones:</strong> Alertando sobre desviaciones laterales y verticales del plan de vuelo</li>
+            </ul>
+
+            <h2>Automatización y Reducción de Carga de Trabajo</h2>
+            <p>El FMS reduce significativamente la carga de trabajo del piloto durante el vuelo. Automatiza:</p>
+            <ul>
+                <li>Sintonización automática de frecuencias de navegación (VOR/DME)</li>
+                <li>Cálculos de rendimiento de despegue y aterrizaje (TOLD)</li>
+                <li>Determinación de punto de descenso óptimo</li>
+                <li>Guía automática lateral (NAV) y vertical (PROF)</li>
+                <li>Control automático de velocidad (FMS SPD)</li>
+                <li>Generación de alertas para desviaciones o eventos anómalos</li>
+            </ul>
+
+            <div class="nota-critica">
+                <strong>Consideración Operacional Crítica</strong>
+                <p>Aunque el FMS proporciona automatización extensiva, los pilotos deben mantener vigilancia constante (Aviate, Navigate, Communicate). La automatización reduce carga de trabajo rutinaria pero incrementa la importancia del monitoreo y verificación independiente.</p>
+            </div>
+
+            <!-- INNOVACIONES TECNOLÓGICAS -->
+            <h1>Innovaciones Tecnológicas Emergentes</h1>
+
+            <h2>Integración de Inteligencia Artificial</h2>
+            <p>Los fabricantes líderes (Honeywell, Thales, GE Aviation, Rockwell Collins) están incorporando capacidades de IA en sistemas FMS modernos:</p>
+            <ul>
+                <li><strong>Mantenimiento Predictivo:</strong> Algoritmos de machine learning que predicen fallas de componentes antes de ocurrir</li>
+                <li><strong>Optimización de Ruta Dinámica:</strong> IA ajusta rutas en tiempo real considerando tráfico, clima y combustible</li>
+                <li><strong>Conciencia Situacional Mejorada:</strong> Sistemas que integran datos meteorológicos, tráfico y terreno para alertas anticipadas</li>
+                <li><strong>Análisis de Patrones de Vuelo:</strong> Identifican ineficiencias operacionales y oportunidades de ahorro</li>
+            </ul>
+
+            <h2>Arquitectura Definida por Software (SDS)</h2>
+            <p>Una tendencia significativa es el movimiento hacia FMS definidos completamente por software, con ventajas:</p>
+            <ul>
+                <li>Mayor flexibilidad para incorporar nuevas funcionalidades</li>
+                <li>Actualizaciones mediante software sin reemplazo de hardware</li>
+                <li>Arquitectura modular que permite integración de aplicaciones de terceros</li>
+                <li>Reducción de costos de actualización y mantenimiento</li>
+                <li>Mayor rapidez en implementación de innovaciones</li>
+            </ul>
+
+            <h2>Sistemas Basados en Computación en Nube</h2>
+            <p>Emergen soluciones de FMS basadas en nube que ofrecen:</p>
+            <ul>
+                <li><strong>Diagnóstico Remoto:</strong> Monitoreo de salud del sistema FMS desde tierra</li>
+                <li><strong>Análisis de Datos Avanzado:</strong> Procesamiento de datos de vuelo para optimización de operaciones</li>
+                <li><strong>Actualizaciones Remotas:</strong> Despliegue de actualizaciones de software sin intervención manual</li>
+                <li><strong>Colaboración en Tiempo Real:</strong> Compartición de datos entre aeronave y operaciones de aerolínea</li>
+            </ul>
+
+            <!-- TABLA COMPARATIVA -->
+            <h2>Evolución Histórica del FMS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Generación</th>
+                        <th>Período</th>
+                        <th>Tecnologías Clave</th>
+                        <th>Limitaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Primera Generación</strong></td>
+                        <td>1980-1990</td>
+                        <td>Basado en radio navegación (VOR/DME), procesamiento limitado</td>
+                        <td>Bajo nivel de automatización, requisitos de input manual extenso</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Segunda Generación</strong></td>
+                        <td>1990-2000</td>
+                        <td>Integración de GPS, mejora de INS, automatización parcial</td>
+                        <td>GPS aún en fase de modernización, disponibilidad limitada</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tercera Generación</strong></td>
+                        <td>2000-2015</td>
+                        <td>GPS totalmente operacional, SBAS, integración digital completa</td>
+                        <td>Arquitectura aún monolítica, actualizaciones requieren cambio de hardware</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cuarta Generación (Actual)</strong></td>
+                        <td>2015-Presente</td>
+                        <td>Software-defined, IA, computación en nube, open architecture</td>
+                        <td>Complejidad de ciberseguridad, requisitos de conectividad</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- DESAFÍOS Y CONSIDERACIONES -->
+            <h1>Desafíos y Consideraciones Futuras</h1>
+
+            <h2>Ciberseguridad</h2>
+            <p>A medida que los sistemas FMS se vuelven más conectados e inteligentes, la ciberseguridad emerge como un desafío crítico:</p>
+            <ul>
+                <li>Sistemas heredados con limitaciones de actualización de seguridad</li>
+                <li>Vulnerabilidades potenciales en comunicaciones ATC digitales</li>
+                <li>Necesidad de segmentación de sistemas críticos versus no-críticos</li>
+                <li>Requisitos de validación rigurosa de software antes del despliegue</li>
+            </ul>
+
+            <h2>Sostenibilidad Ambiental</h2>
+            <p>El FMS juega un rol fundamental en reducción de huella de carbono aeronáutica:</p>
+            <ul>
+                <li>Optimización de rutas reduce consumo de combustible 2-5%</li>
+                <li>Perfiles de vuelo optimizados minimizan altitudes ineficientes</li>
+                <li>Integración de datos de sostenibilidad en decisiones de planificación de ruta</li>
+                <li>Soporte para operaciones de aviación sostenible (SAF - Sustainable Aviation Fuel)</li>
+            </ul>
+
+            <!-- CONCLUSIONES -->
+            <h1>Conclusiones</h1>
+            <p>El Flight Management System representa una de las innovaciones tecnológicas más significativas en aviación comercial, transformando operaciones desde las fases de planificación pre-vuelo hasta aterrizaje. La arquitectura integrada de sus cuatro componentes principales proporciona automatización, precisión y eficiencia operacional sin precedentes.</p>
+
+            <p>Las tendencias emergentes—especialmente la integración de inteligencia artificial, arquitecturas definidas por software y computación en nube—prometen resolver desafíos operacionales actuales y abrir nuevas posibilidades para optimización y sostenibilidad. Sin embargo, estos avances deben balancearse cuidadosamente con requisitos de ciberseguridad, validación rigurosa y mantenimiento de capacidades de operación manual de los pilotos.</p>
+
+            <p>Mirando hacia adelante, se anticipa que el mercado global de FMS continuará expandiéndose a medida que la aviación moderna enfrenta presiones por mayor eficiencia operacional y sostenibilidad ambiental. Las organizaciones que lideran la innovación en FMS—incluyendo Honeywell, Thales y otros—continuarán siendo actores clave en la definición del futuro de los sistemas de gestión de vuelo.</p>
+
+            <!-- REFERENCIAS -->
+            <div class="referencias">
+                <h2>Referencias Bibliográficas</h2>
+                <ol>
+                    <li>SKYbrary Aviation Safety. (2024). "Flight Management System". Recuperado de https://skybrary.aero/articles/flight-management-system</li>
+                    <li>Government Procurement. (2023). "Aircraft FMS Explained: Key Functions and Benefits". Recuperado de https://www.governmentprocurement.com/news/aircraft-fms</li>
+                    <li>Invernyx Aviation. (2023). "FMS Guide Documentation". Recuperado de https://docs.invernyx.com/en/717/fms-guide</li>
+                    <li>TFDi Design. (2024). "Flight Management System Guide". Recuperado de https://docs.tfdidesign.com/717/fms-guide</li>
+                    <li>Data Insights Market. (2024). "Flight Management Systems (FMS) Market Disruption". Recuperado de https://www.datainsightsmarket.com/reports/flight-management-systems-fms-670244</li>
+                    <li>IVAO Virtual Aviation. (2022). "Flight Management System - FMS Training Documentation". Recuperado de https://wiki.ivao.aero/en/home/training/documentation/Flight_Management_System_-_FMS</li>
+                    <li>Wikipedia. (2005). "Flight Management System". Recuperado de https://en.wikipedia.org/wiki/Flight_management_system</li>
+                    <li>Helicopter Maintenance Magazine. (2024). "A Mechanics Guide to Flight Management Systems". Recuperado de https://helicoptermaintenancemagazine.com/article/mechanics-guide-flight-management-systems</li>
+                </ol>
+            </div>
+
+            <!-- INFORMACIÓN DE AUTOR -->
+            <div class="autor-info">
+                <h4>Información del Artículo</h4>
+                <p><strong>Fecha de Publicación:</strong> Diciembre 2025</p>
+                <p><strong>Institución:</strong> Revista Aviónica Aeronáutica - Publicación Científica Internacional</p>
+                <p><strong>Área Temática:</strong> Aviación Comercial, Aviónica, Sistemas de Gestión de Vuelo</p>
+                <p><strong>Revisión por Pares:</strong> Sometido a evaluación de expertos en aviación comercial y aviónica</p>
+                <p style="margin-top: 15px; font-size: 0.95em; font-style: italic;">Este artículo presenta un análisis comprehensivo basado en documentación técnica actual, especificaciones de fabricantes líderes y publicaciones científicas en el campo de sistemas de navegación aérea.</p>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <div>
+                    <h4>Revista Aviónica Aeronáutica</h4>
+                    <p>Publicación Científica Internacional</p>
+                    <p>Volumen 15, Número 3 | 2025</p>
+                </div>
+                <div>
+                    <h4>Temas de Interés</h4>
+                    <p>Aviación Comercial</p>
+                    <p>Aviónica y Sistemas</p>
+                    <p>Tecnología Aeroespacial</p>
+                </div>
+                <div>
+                    <h4>Acceso y Licencia</h4>
+                    <p>Acceso Abierto</p>
+                    <p>CC BY-NC 4.0</p>
+                    <p>Compartir con Atribución</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Revista Aviónica Aeronáutica. Todos los derechos reservados. | ISSN: 2024-5847</p>
+                <p>Publicación revisada por pares de acceso abierto dedicada a investigación en sistemas aeronáuticos modernos</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
